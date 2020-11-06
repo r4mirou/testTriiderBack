@@ -1,0 +1,115 @@
+version: '3'
+
+services:
+  server-gql:
+    container_name: gql-triider
+    build:       
+      context: .
+      dockerfile: Dockerfile   
+    command: sh -c "yarn && yarn sequelize db:migrate && yarn dev"
+    ports:
+      - "4005:4005"
+    expose:
+      - "4005"
+    volumes:
+      - .:/app/serverGQL
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASS: ${POSTGRES_PASSWORD}
+    depends_on:      
+      - pgAdmin
+    networks:
+      - app-connect
+  
+  postgresDB:
+    container_name: postgres-triider
+    image: postgres:11
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    ports:
+      - 5432:5432
+    environment: 
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-connect
+
+  pgAdmin:
+    container_name: pga-triider
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "email@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "loginpass"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgresDB
+    logging:
+      driver: none
+      
+volumes:
+  pgdata:
+
+networks:
+  app-connect:
+    driver: bridge      
+
+
+
+
+
+
+
+
+
+
+# version: '3'
+
+# services:
+#   server-gql:
+#     container_name: gql-triider
+#     build: .    
+#     # command: sh -c "yarn sequelize db:migrate && yarn sequelize db:seed:all && yarn dev"
+#     command: sh -c "yarn sequelize db:migrate && yarn dev"
+#     ports:
+#       - "4005:4005"
+#     expose:
+#       - "4005"
+#     volumes:
+#       - .:/home/app/serverGQL
+#     environment:
+#       DB_HOST: ${POSTGRES_HOST}
+#       DB_NAME: ${POSTGRES_DB}
+#       DB_USER: ${POSTGRES_USER}
+#       DB_PASS: ${POSTGRES_PASSWORD}
+#     depends_on:
+#       - postgresDB
+#     networks:
+#       - app-connect
+  
+#   postgresDB:
+#     container_name: postgres-triider
+#     image: postgres:11
+#     restart: unless-stopped
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     ports:
+#       - 5432:5432
+#     environment: 
+#       POSTGRES_DB: ${POSTGRES_DB}
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#     networks:
+#       - app-connect
+
+# volumes:
+#   pgdata:
+
+# networks:
+#   app-connect:
+#     driver: bridge      

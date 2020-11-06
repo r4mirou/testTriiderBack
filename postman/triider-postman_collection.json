@@ -1,0 +1,652 @@
+{
+	"info": {
+		"_postman_id": "6805a8cd-38e3-4fa7-ba81-d70ca56f6f8b",
+		"name": "gql-triider",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Mutation",
+					"item": [
+						{
+							"name": "createToken",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTYwMjIwMjM4M30.TpVpIxHyb0Qn1wBPiW4qPbJ8kbAZTa77wCmM_VSkQ4E",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createNewToken($login: String!, $password: String!) {\n    createToken(login: $login, password: $password) {\n        token\n    }\n}",
+										"variables": "{\n\t\"login\": \"usuario_animador1\",\n\t\"password\": \"123456\"\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Query",
+					"item": [
+						{
+							"name": "currentUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n    currentUser{\n        id\n        username\n        email\n        profileUser{\n            id\n            name\n            about\n        }\n        roleUser{\n            fk_role_type{\n                description\n            }\n        }\n        serviceUser{\n            fk_service_type{\n                description\n            }\n            serviceUserCost{\n                cost\n            }\n        }\n        calendar{\n            id\n            events{\n                name\n                local_event\n            }\n            availabilities{\n                binary\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Mutation",
+					"item": [
+						{
+							"name": "createUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createNewUser($input: UserCreateInput!) {\n    createUser(input: $input) {\n        id\n        username\n        email\n    }\n}",
+										"variables": "{\n\t\"input\": {\n\t\t\"username\": \"New User\",\n\t\t\"email\": \"newuser@email.com\",\n\t\t\"password\": \"123456\",\n\t\t\"roleUser\": 1\n\t}\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateCurrentUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateExistingUser($input: UserUpdateInput!) {\n    updateCurrentUser(input: $input) {\n        username\n        email\n    }\n}",
+										"variables": "{\n\t\"input\": {\n\t\t\"username\": \"Updated User\",\n\t\t\"email\": \"updateduser@email.com\"\n\t}\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateCurrentPassword",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateExistingUser($input: UserUpdatePasswordInput!) {\n    updateCurrentUserPassword(input: $input)\n}",
+										"variables": "{\n\t\"input\": {\n\t\t\"password\": \"newPass\"\n\t}\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCurrentUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\n    deleteCurrentUser\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "UserProfile",
+			"item": [
+				{
+					"name": "Query",
+					"item": [
+						{
+							"name": "currentProfileUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n    currentProfileUser{\n        id\n        name\n        about\n        fk_user{\n            id\n            username\n            email\n            calendar{\n                id\n                events{\n                    id\n                    name\n                }\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Mutation",
+					"item": [
+						{
+							"name": "updateCurrentProfileUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation updateExistingProfileUser($input: ProfileUserUpdateInput!) {\n    updateCurrentProfileUser(input: $input) {\n        id\n        name\n        about\n        fk_user{\n            id\n            username\n            email\n        }\n    }\n}",
+										"variables": "{\n\t\"input\": {\n\t\t\"name\": \"Updated User Profile\",\n\t\t\"about\": \"Updated about user profile\"\n\t}\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "RoleType",
+			"item": [
+				{
+					"name": "allRoleType",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    allRoleType{\n        id\n        description\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "roleType",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getRoleType($id: ID!) {\n    roleType(id: $id){\n        id\n        description\n    }\n}",
+								"variables": "{\n\t\"id\": \"1\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RoleUser",
+			"item": [
+				{
+					"name": "currentAllRoleUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    currentAllRoleUser{\n        id\n        fk_role_type{\n            description\n        }\n        fk_user{\n            username\n        }\n    }\n}\n\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ServiceType",
+			"item": [
+				{
+					"name": "allServiceType",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    allServiceType{\n        id\n        description\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "serviceType",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getRoleType($id: ID!) {\n    serviceType(id: $id){\n        id\n        description\n    }\n}",
+								"variables": "{\n\t\"id\": \"2\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ServiceUser",
+			"item": [
+				{
+					"name": "currentAllServiceUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    currentAllServiceUser{\n        id\n        fk_service_type{\n            description\n        }\n        fk_user{\n            username\n        }\n        serviceUserCost{\n            cost\n        }\n    }\n}\n\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "allServiceUserByService",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getAllServiceUserByService($id: ID!) {\n    allServiceUserByService(id: $id){\n        fk_service_type{\n            description\n        }\n        serviceUserCost{\n            cost\n        }\n        fk_user{\n            username\n            roleUser{\n                fk_role_type{\n                    description\n                }\n            }\n        }\n    }\n}",
+								"variables": "{\n\t\"id\": \"1\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ServiceUserCost",
+			"item": [
+				{
+					"name": "serviceUserCostByService",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getServiceUserCostByService($id: ID!) {\n    serviceUserCostByService(id: $id){\n        cost\n        fk_service_user{\n            fk_service_type{\n                description\n            }\n        }\n    }\n}",
+								"variables": "{\n\t\"id\": \"1\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Calendar",
+			"item": [
+				{
+					"name": "allCalendarByCurrentUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    allCalendarByCurrentUser{\n        id\n        fk_user{\n            username\n        }\n        events{\n            name\n            \n        }\n        \n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "Query",
+					"item": [
+						{
+							"name": "events",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query getRangeEvent($initial: String!, $final: String!) {\n    events(initial: $initial, final: $final){\n       id\n        name\n        date_event\n        day_week\n        period\n    }\n    availabilities{\n        binary\n    }\n}\n\n",
+										"variables": "{\n\t\"initial\": \"2020-11-01\",\n\t\"final\": \"2020-11-07\"\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Mutation",
+					"item": [
+						{
+							"name": "addEvent",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation addEvent($input: EventCreateInput!) {\n    createEvent(input: $input){\n        id\n        name\n    }\n}\n\n",
+										"variables": "{\n\t\"input\": {\n\t\t\"name\": \"Event inserted1\",\n\t\t\"date\": \"2021-01-11\",\n\t\t\"local\": \"Local test\",\n\t\t\"period\": 0,\n\t\t\"block\": true\n\t}\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}",
+									"host": [
+										"{{base_url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Availability",
+			"item": [
+				{
+					"name": "availabilities",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n    availabilities{\n        id\n        monday\n        binary\n    }\n}\n\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}",
+							"host": [
+								"{{base_url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

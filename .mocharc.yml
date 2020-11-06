@@ -1,0 +1,6 @@
+color: true
+reporter: 'spec'
+slow: 5000
+exit: true
+delay: true
+spec: 'test/**/*.test.js'
