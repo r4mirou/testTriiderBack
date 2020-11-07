@@ -18,7 +18,7 @@ module.exports = {
     logging: false,
   },
   production: {
-    stConnection: 'postgres://TUSwxCOrR0tCF_CGG11jZqLVHbM9VmYw@lallah.db.elephantsql.com:5432/ghfcpqsb',
+    stConnection: 'postgres://ghfcpqsb:TUSwxCOrR0tCF_CGG11jZqLVHbM9VmYw@lallah.db.elephantsql.com:5432/ghfcpqsb',
     logging: false,
   },
 };
